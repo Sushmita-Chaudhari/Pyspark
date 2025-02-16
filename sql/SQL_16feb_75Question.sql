@@ -1,3 +1,70 @@
+--1.Create a customer table having following column with suitable data type
+--Cust_id (automatically incremented primary key)
+--Customer name (only characters must be there)
+--Aadhar card (unique per customer),Mobile number (unique per customer)
+--Date of birth (check if the customer is having age more than15)
+--Address,Address type code (B- business, H- HOME, O-office and should not accept any other)
+--State code ( MH – Maharashtra, KA for Karnataka)
+create database question;
+
+use question;
+
+create schema sql
+create table sql.customer(
+cust_id int identity primary key,
+cust_name varchar(20),
+Aadhar_num varchar(12) unique,
+mob_num varchar(10) unique,
+dob date check(datediff(year,dob,getdate())>15),
+address0 varchar(50),
+address1 char(1) check(len(address1)=1 and address1 in ('b','h','o')),
+state1 char(2) check (len(state1)=2 and state1 in('MH','KA'))
+
+)
+
+--Create another table for Address type which is having
+--Address type code must accept only (B,H,O)
+--Address type having the information as (B- business, H- HOME, O-office)
+
+--Create table state_info having columns as  
+--State_id  primary unique
+--State name 
+--Country_code char(2)
+
+create table sql.state_info(
+state_id int primary key,
+state_name varchar(30),
+country_code char(4)
+)
+
+--Alter tables to link all tables based on suitable columns and foreign keys.
+
+
+--Change the column name from customer table customer name as c_name
+--Change the column name from customer table customer name as c_name
+EXEC sp_rename 'sql.customer.cust_name', 'C_name', 'COLUMN';
+select * from sql.customer
+
+
+--Insert the suitable records into the respective tables
+INSERT INTO sql.customer(c_name, Aadhar_num,mob_num,dob,address0,address1,state1) 
+VALUES('sush',123455,1234567890,'12-09-2002','Amalner','b','mh')
+
+INSERT INTO sql.customer(c_name, Aadhar_num,mob_num,dob,address0,address1,state1) 
+VALUES('sush',123455,1234567890,'12-09-2002','Amalner','b','mh')
+
+INSERT INTO sql.state_info VALUES(19,'Maharashtra','IND')
+
+select * from sql.customer
+select * from sql.state_info
+
+--Change the data type of country_code to varchar(3)
+alter table sql.state_info
+alter column country_code varchar(3)
+
+select * from sql.state_info
+
+
 use AdventureWorks2022;
 
 --19. find all the products with special offer
